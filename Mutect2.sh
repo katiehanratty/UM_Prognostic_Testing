@@ -3,26 +3,31 @@
 #set working directory to users bamfile directory
 #ensure to rename files to the sample name used in the BAM reads
 for i in *.bam; do
-mv i {i%_sorted_filtered_nodup_RG.bam}
+mv i {i%_sorted_filtered_nodup_RG.bam} #takes anything past the % off the file name
 done
 
-#create directory for your files
+#create directory for your mutect2 VCF files
 mkdir -p ~/mutect2/normals
 
-######create panel of normals######
-#first run every normal sample through tumor only Mutect2
+#CREATE PANEL OF NORMALS
+
+#first run every normal sample through tumor-only Mutect2 (to create Panel of Normals)
 for i in trimmed_patient*_normal; do 
 gatk Mutect2 -R ~/alignment/reference/hg38.fa -I $i -tumor $i \
 -O ~/mutect2/normals/${i%.bam}.vcf.gz
 done 
-#make an arg file of all the normal files
+
+#make an arg file of all the normal files (a list file)
 ls ~/mutect2/normals/*.vcf.gz > normals_for_pon_vcf.args
+
 #use gatk command to create panel
 gatk CreateSomaticPanelOfNormals --vcfs normals_for_pon_vcf.args \ 
 -O ~/mutect2/normals/PON.vcf.gz 
 
-######run somatic variant calling######
+#RUN SOMATIC VARIANT CALLING
+
 for tumour in trimmed_*_tumour; do
+#save patient id in computer memory
 patient_id=${tumour#trimmed_}
 patient_id=${patient_id%_tumour}
 normal="trimmed_${patient_id}_normal"
