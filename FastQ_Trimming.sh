@@ -18,9 +18,5 @@ mv trimmed*fastq.gz ~/trimmed_fastq
 
 #run fastqc and multiqc on the trimmed files
 cd ~/trimmed_fastq
-fastqc *.fastq.gz 
-multiqc ~/trimmed_fastq --outdir=~/trimmed_fastq/FastQC/MultiQC
-
-#move FASTQC files to their own directory
-mv *fastqc* FastQC
-
+fastqc *.fastq.gz --outdir=~/trimmed_fastq/FastQC
+multiqc ~/trimmed_fastq/FastQC --outdir=~/trimmed_fastq/FastQC/MultiQC
