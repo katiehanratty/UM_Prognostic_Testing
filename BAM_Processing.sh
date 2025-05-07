@@ -1,11 +1,18 @@
 #!/bin/sh
 
-#OBTAIN READ GROUP INFORMATION
+#save pathway with bamfiles in memory
+ALIGNED=~/alignment/bamfiles   #edit for directory name as needed
+
+#create subdirectories for intermediate and raw files
+mkdir ~/alignment/bamfiles/intermediate_files
+mkdir ~/alignment/bamfiles/raw_files
+
+#OBTAIN READ GROUP INFORMATION FROM FASTQ FILES
 
 #set working directory to directory with the fastq files
-#save pathway for bamfiles in memory
-ALIGNED=~/alignment/bamfiles   #edit for directory names as needed
+cd ~/fastq
 
+#start loop
 for fastqname in *R1.fastq.gz; do #edit for filenames as needed
 echo "fastq file: $fastqname"
 subject=${fastqname%_R1.fastq.gz} 
@@ -14,8 +21,10 @@ echo "subject: $subject"
 fastq_header1=`gunzip -c $fastqname | head -n1| awk '{print $1}'`
 fastq_header2=`gunzip -c $fastqname | head -n1| awk '{print $2}'`
 
-#extract each element from the fastq headers
-#NOTE:Ensure fastq header in colon delimited format 
+#extract each element from the fastq headers and save each field in memory
+#NOTE:Ensure fastq header in colon delimited format. If not (e.g. BGI data) extract and view headers between reads
+#and between files to figure out which field likely represents run id, flowcell id, lane id, etc to use for read group id.
+
 IFS=: read -a fields1 <<< "$fastq_header1"
 run_id=`echo ${fields1[1]}`
 flowcell_id=`echo ${fields1[2]}`
@@ -28,7 +37,9 @@ index=`echo ${fields2[3]}`
 echo "run id is $run_id, flowcell id is $flowcell_id, lane is $lane, index is $index"
 #readgroup=@RG"\t"ID:${run_id}.${lane}.${index}_${subject}"\t"LB:Batch1.${subject}"\t"SM:${subject}"\t"PL:ILLUMINA"\t"PU:${flowcell_id}.${lane}.${index}_${subject}
 #echo "readgroup is: $readgroup"
-RGID=ID:${run_id}.${lane}.${index}_${subject} #edit for filenames as needed
+
+#save these in memory
+RGID=ID:${run_id}.${lane}.${index}_${subject} #edit for files as needed
 RGLB=Batch1.${subject}
 RGSM=${subject}
 RGPL=ILLUMINA #edit for platform as needed
