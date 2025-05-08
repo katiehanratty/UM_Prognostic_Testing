@@ -72,8 +72,14 @@ echo ""
 #remove non-primary alignments and reads with MAPQ<10
 echo "Removing non-primary alignments and ambiguous reads (MAPQ<10) from ${fastqname%_R1.fastq.gz}_sorted_RG.bam:"
 date +"%c"
-samtools view -b -F 2304 -q 10 \
+#removing supplementary and MAPQ<10 alignments
+samtools view -b -F 2048 -q 10 \
 ${ALIGNED}/${fastqname%_R1.fastq.gz}_sorted_RG.bam > ${ALIGNED}/${fastqname%_R1.fastq.gz}_sorted_filtered_RG_temp.bam
+date +"%c"
+echo ""
+#removing secondary alignments
+samtools view -b -F 256 \
+${ALIGNED}/${fastqname%_R1.fastq.gz}_sorted_RG_temp.bam > ${ALIGNED}/${fastqname%_R1.fastq.gz}_sorted_filtered_RG_temp2.bam
 date +"%c"
 echo ""
 
@@ -81,7 +87,7 @@ echo ""
 echo "Removing unmapped reads with MAPQ>0 from ${fastqname%_R1.fastq.gz}_sorted_reads_RG.bam:"
 date +"%c"
 samtools view -b -F 4 \
-${ALIGNED}/${fastqname%_R1.fastq.gz}_sorted_filtered_RG_temp.bam > ${ALIGNED}/${fastqname%_R1.fastq.gz}_sorted_filtered_RG.bam
+${ALIGNED}/${fastqname%_R1.fastq.gz}_sorted_filtered_RG_temp2.bam > ${ALIGNED}/${fastqname%_R1.fastq.gz}_sorted_filtered_RG.bam
 date +"%c"
 echo ""
 #remove duplicate reads
