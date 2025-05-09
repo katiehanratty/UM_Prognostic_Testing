@@ -1,5 +1,5 @@
 # UM_Prognostic_Testing
- ioinformatic Analysis Pipelines used for for project entitled 'Evaluating the Predictive Accuracy of Detection Methods for Molecular Signatures in Uveal Melanoma' by Katie Hanratty.
+Bioinformatic Analysis Pipelines used for for project entitled 'Evaluating the Predictive Accuracy of Detection Methods for Molecular Signatures in Uveal Melanoma' by Katie Hanratty.
 
 All tumour and matched files underwent FastQC.sh, Alignment.sh, BAM_Processing.sh, and Coverage.R scripts. Files needing trimming following FASTQC run underwent FastQ_Trimming.sh Files went through three separate pipelines following from this:
 
