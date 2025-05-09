@@ -10,6 +10,7 @@ CNV Calling: CNVkit.sh
 Only matched tumour-normal samples:
 
 CNV Calling: snp-pileup.sh and FACETS.R scripts
+
 BAP1 Variant Calling: Mutect2.sh and VEP.sh scripts.
 
 In other words:
