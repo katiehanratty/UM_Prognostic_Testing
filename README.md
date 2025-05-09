@@ -15,4 +15,5 @@ BAP1 Variant Calling: Mutect2.sh and VEP.sh scripts.
 In other words:
 
 Unmatched samples: FastQC.sh, (FastQ_Trimming.sh), Alignment.sh, BAM_Processing.sh, Coverage.R, CNVkit.sh
+
 Matched samples: FastQC.sh, (FastQ_Trimming.sh), Alignment.sh, BAM_Processing.sh, Coverage.R, CNVkit.sh, snp-pileup.sh and FACETS.R, Mutect2.sh and VEP.sh
