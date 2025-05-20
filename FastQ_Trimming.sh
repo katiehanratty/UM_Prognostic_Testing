@@ -13,10 +13,10 @@ $i ${i%_1.fastq.gz}_2.fastq.gz > trimmed_${i%_1.fastq.gz}_cutadapt.log   #adjust
 done
 
 #move trimmed files to their own directory 
-mkdir -p ~/trimmed_fastq/FastQC/MultiQC
-mv trimmed*fastq.gz ~/trimmed_fastq
+mkdir -p trimmed_fastq/FastQC/MultiQC
+mv trimmed*fastq.gz trimmed_fastq
 
 #run fastqc and multiqc on the trimmed files
-cd ~/trimmed_fastq
-fastqc *.fastq.gz --outdir=~/trimmed_fastq/FastQC
-multiqc ~/trimmed_fastq/FastQC --outdir=~/trimmed_fastq/FastQC/MultiQC
+cd trimmed_fastq
+fastqc *.fastq.gz --outdir=FastQC
+multiqc trimmed_fastq/FastQC --outdir=./trimmed_fastq/FastQC/MultiQC
