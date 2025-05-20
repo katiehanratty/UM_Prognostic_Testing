@@ -106,5 +106,6 @@ mv ${fastqname%_R1.fastq.gz}_sorted.bam ${ALIGNED}/raw_files
 mv ${fastqname%_R1.fastq.gz}_sorted_filtered_RG.bam ${ALIGNED}/intermediate_files
 mv ${fastqname%_R1.fastq.gz}_sorted_RG.bam ${ALIGNED}/intermediate_files
 mv ${fastqname%_R1.fastq.gz}_sorted_filtered_RG_temp.bam ${ALIGNED}/intermediate_files
+mv ${fastqname%_R1.fastq.gz}_sorted_filtered_RG_temp2.bam ${ALIGNED}/intermediate_files
 
 done
