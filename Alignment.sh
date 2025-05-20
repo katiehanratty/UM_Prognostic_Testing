@@ -11,7 +11,7 @@ wget #add in link to ftp server's reference wanted
 #ALIGN FASTQ TO REFERENCE 
 
 #MOVE INTO DIRECTORY WITH FASTQ FILES
-cd ~/fastq 
+cd ~/fastq  #adjust if files are in trimmed section
 
 #CREATE LOOP
 for i in *_R1.fastq.gz; do
