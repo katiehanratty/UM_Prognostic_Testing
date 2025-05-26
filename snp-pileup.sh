@@ -5,6 +5,10 @@
 #download general VCF file available from FTP server ( 00-common-all.vcf reccommended)
 #set working directory to users bamfile directory
 
+for i in *.pileup; do
+head -n 1 $i && tail -n +2 $i | sort -t, -k1,1V -k2,2n > ${i%.pileup}.sorted.pileup
+done
+
 #start loop
 for tumour in trimmed_*_tumour_sorted_filtered_nodup_RG.bam; do
 #save patient id in computer memory
