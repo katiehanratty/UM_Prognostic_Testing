@@ -13,7 +13,8 @@ REFERENCE=/mnt/data/GCB2025/katiehanratty/alignment/reference
 ##### ALIGN FASTQ TO REFERENCE #####
 
 #MOVE INTO DIRECTORY WITH FASTQ FILES
-cd ~/fastq/trimmed_fastq  #adjust depending on file location
+#adjust depending on file location
+cd ~/fastq/trimmed_fastq || exit 1 #stops script running if the cd doesn't run properly
 
 #CREATE LOOP FOR BWA ALIGNMENT
 for i in *_R1.fastq.gz; do
