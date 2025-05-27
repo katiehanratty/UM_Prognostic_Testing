@@ -19,7 +19,7 @@ UNMATCHED=/mnt/data/GCB2025/katiehanratty/alignment/bamfiles/filtered_bam/150bp/
 #manually download exome kit bedfile from company website to the bedfiles directory 
 #for my files, Agilent v6 Exon Capture kit was used. 
 #note: step already done for bedtools coverage. Can cp this bedfile in
-cp ~/alignment/bedtools/bedfile/Exome-Agilent_V6.bed $BEDFILES
+cp ~/alignment/bedtools/bedfile/Exome-Agilent_V6.bed ${BEDFILES}
 
 #set working directory to users bamfile directory
 cd ${BAMFILES}/150bp || exit 1 #edit as needed
