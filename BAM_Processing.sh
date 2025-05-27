@@ -4,13 +4,15 @@
 ALIGNED=~/alignment/bamfiles   #edit for directory name as needed
 
 #create subdirectories for intermediate and raw files
-mkdir ~/alignment/bamfiles/intermediate_files
-mkdir ~/alignment/bamfiles/raw_files
+mkdir -p ~/alignment/bamfiles/intermediate_files
+mkdir -p ~/alignment/bamfiles/raw_bam
+mkdir -p ~/alignment/bamfiles/filtered_bam
+mkdir -p ~/alignment/bamfiles/metrics
 
 #OBTAIN READ GROUP INFORMATION FROM FASTQ FILES
 
 #set working directory to directory with the fastq files
-cd ~/fastq
+cd ~/fastq/trimmed_fastq || exit 1 #stops script running if the cd doesn't run properly
 
 #start loop
 for fastqname in *R1.fastq.gz; do #edit for filenames as needed
@@ -51,13 +53,13 @@ echo "RGPL is: $RGPL"
 echo "RGPU is: $RGPU"
 echo ""
 
-#ADD READGROUP INFORMATION TO BAMFILES
+#ADDING THE READGROUP INFORMATION TO BAMFILES
 
-echo "Adding read group information to ${fastqname%_R1.fastq.gz}.sorted.bam:"
+echo "Adding read group information to ${fastqname%_R1.fastq.gz}_sorted.bam:"
 date +"%c"
 picard AddOrReplaceReadGroups \
-I=${ALIGNED}/${fastqname%_R1.fastq.gz}_sorted.bam \  #edit for filenames as needed
-O=${ALIGNED}/${fastqname%_R1.fastq.gz}_sorted_RG.bam \
+I=${ALIGNED}/${fastqname%_R1.fastq.gz}_sorted.bam \
+O=${ALIGNED}/intermediate_files/${fastqname%_R1.fastq.gz}_sorted_RG.bam \
 RGID=$RGID \
 RGLB=$RGLB \
 RGPL=$RGPL \
@@ -74,12 +76,14 @@ echo "Removing non-primary alignments and ambiguous reads (MAPQ<10) from ${fastq
 date +"%c"
 #removing supplementary and MAPQ<10 alignments
 samtools view -b -F 2048 -q 10 \
-${ALIGNED}/${fastqname%_R1.fastq.gz}_sorted_RG.bam > ${ALIGNED}/${fastqname%_R1.fastq.gz}_sorted_filtered_RG_temp.bam
+${ALIGNED}/intermediate_files/${fastqname%_R1.fastq.gz}_sorted_RG.bam \
+> ${ALIGNED}/intermediate_files/${fastqname%_R1.fastq.gz}_sorted_filtered_RG_temp.bam
 date +"%c"
 echo ""
 #removing secondary alignments
 samtools view -b -F 256 \
-${ALIGNED}/${fastqname%_R1.fastq.gz}_sorted_RG_temp.bam > ${ALIGNED}/${fastqname%_R1.fastq.gz}_sorted_filtered_RG_temp2.bam
+${ALIGNED}/intermediate_files/${fastqname%_R1.fastq.gz}_sorted_RG_temp.bam \
+> ${ALIGNED}/intermediate_files/${fastqname%_R1.fastq.gz}_sorted_filtered_RG_temp2.bam
 date +"%c"
 echo ""
 
@@ -87,25 +91,22 @@ echo ""
 echo "Removing unmapped reads with MAPQ>0 from ${fastqname%_R1.fastq.gz}_sorted_reads_RG.bam:"
 date +"%c"
 samtools view -b -F 4 \
-${ALIGNED}/${fastqname%_R1.fastq.gz}_sorted_filtered_RG_temp2.bam > ${ALIGNED}/${fastqname%_R1.fastq.gz}_sorted_filtered_RG.bam
+${ALIGNED}/intermediate_files/${fastqname%_R1.fastq.gz}_sorted_filtered_RG_temp2.bam \
+> ${ALIGNED}/intermediate_files/${fastqname%_R1.fastq.gz}_sorted_filtered_RG.bam
 date +"%c"
 echo ""
 #remove duplicate reads
-echo "Removing duplicates from filtered ${ALIGNED}/${fastqname%_R1.fastq.gz}_sorted_filtered_RG.bam:"
+echo "Removing duplicates from filtered ${fastqname%_R1.fastq.gz}_sorted_filtered_RG.bam:"
 date +"%c"
-picard MarkDuplicates INPUT=${ALIGNED}/${fastqname%_R1.fastq.gz}_sorted_filtered_RG.bam \
+picard MarkDuplicates INPUT=${ALIGNED}/intermediate_files/${fastqname%_R1.fastq.gz}_sorted_filtered_RG.bam \
 OUTPUT=${ALIGNED}/filtered_bam/${fastqname%_R1.fastq.gz}_sorted_filtered_nodup_RG.bam \
 REMOVE_DUPLICATES=true \
-METRICS_FILE=${ALIGNED}/metrics/${fastqname%_R1.fastq.gz}.filtered_nodup.metrics.txt \
+METRICS_FILE=${ALIGNED}/metrics/${fastqname%_R1.fastq.gz}_sorted_filtered_nodup_RG_metrics.txt \
 VALIDATION_STRINGENCY=LENIENT
 date +"%c"
 echo ""
 
 #move files into respective directories
-mv ${fastqname%_R1.fastq.gz}_sorted.bam ${ALIGNED}/raw_files
-mv ${fastqname%_R1.fastq.gz}_sorted_filtered_RG.bam ${ALIGNED}/intermediate_files
-mv ${fastqname%_R1.fastq.gz}_sorted_RG.bam ${ALIGNED}/intermediate_files
-mv ${fastqname%_R1.fastq.gz}_sorted_filtered_RG_temp.bam ${ALIGNED}/intermediate_files
-mv ${fastqname%_R1.fastq.gz}_sorted_filtered_RG_temp2.bam ${ALIGNED}/intermediate_files
+mv ${fastqname%_R1.fastq.gz}_sorted.bam ${ALIGNED}/raw_bam
 
 done
