@@ -1,11 +1,11 @@
 #!/usr/bin/env Rscript
 
-
 #install and call required packages
 install.packages(dplyr)
 library(dplyr)
 
 #set working directory to where bedtools coverage files are. 
+setwd("C:/Users/katiehanratty/Documents/Research_Project/Bedtools_Coverage")
 
 #list the depth files in working directory.
 bed_files <- list.files(pattern = "*.txt") 
