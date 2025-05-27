@@ -1,29 +1,27 @@
 #!/bin/sh
 
-#MAKE DIRECTORY FOR ALIGNMENT
+#MAKE DIRECTORIES FOR ALIGNMENT, edit as required
 mkdir -p ~/alignment/bamfiles
 mkdir -p ~/alignment/samfiles
+mkdir -p ~/alignment/reference
+SAMFILES=/mnt/data/GCB2025/katiehanratty/alignment/samfiles
+BAMFILES=/mnt/data/GCB2025/katiehanratty/alignment/bamfiles
+REFERENCE=/mnt/data/GCB2025/katiehanratty/alignment/reference
 
-#DOWNLOAD REFERENCE SEQUENCE OF CHOICE TO REFERENCE DIRECTORY
-mkdir ~/alignment/reference
-wget #add in link to ftp server's reference wanted 
+#DOWNLOAD REFERENCE SEQUENCE OF CHOICE TO REFERENCE DIRECTORY USING WGET
 
-#ALIGN FASTQ TO REFERENCE 
+##### ALIGN FASTQ TO REFERENCE #####
 
 #MOVE INTO DIRECTORY WITH FASTQ FILES
-cd ~/fastq  #adjust if files are in trimmed section
+cd ~/fastq/trimmed_fastq  #adjust depending on file location
 
-#CREATE LOOP
+#CREATE LOOP FOR BWA ALIGNMENT
 for i in *_R1.fastq.gz; do
-bwa mem -t 8 ~/alignment/reference/hg38.fa $i \  #edit threads (-t) as needed
-${i%_R1.fastq.gz}_R2.fastq.gz > ${i%_R1.fastq.gz}.sam
+bwa mem -t 8 $REFERENCE/hg38.fa $i \
+${i%_R1.fastq.gz}_R2.fastq.gz > $SAMFILES/${i%_R1.fastq.gz}.sam
 
 #SAM TO BAM, SORTING AND INDEXING BAM FILE
-samtools view -b ${i%_R1.fastq.gz}.sam | samtools sort -o ${i%_R1.fastq.gz}_sorted.bam
-samtools index ${i%_R1.fastq.gz}_sorted.bam
+samtools view -b $SAMFILES/${i%_R1.fastq.gz}.sam | samtools sort -o $BAMFILES/${i%_R1.fastq.gz}_sorted.bam
+samtools index $BAMFILES/${i%_R1.fastq.gz}_sorted.bam
 done 
-
-#MOVE FILES TO BAMFILE/SAMFILE DIRECTORY
-mv *.bam ~/alignment/bamfiles
-mv *.sam ~/alignment/samfiles
 
