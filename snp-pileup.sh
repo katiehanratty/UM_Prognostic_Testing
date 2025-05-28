@@ -1,21 +1,21 @@
 #!/bin/bash
 
 #CREATE SNP PILEUP FILE FOR FACETS
-mkdir -p ~/FACETS/VCF
-#download general VCF file available from FTP server ( 00-common_all.vcf reccommended)
 
+#make directory for FACETS
+mkdir -p ~/FACETS/VCF
+
+#download general VCF file available from FTP server ( 00-common_all.vcf reccommended)
 #wget  ftp://ftp.ncbi.nlm.nih.gov/snp/organisms/human_9606/VCF/00-common_all.vcf.gz
-#unzip VCF and sort it numerically
+
+#unzip that VCF and sort it numerically (need to ensure FACETS run correctly)
 gunzip ~/FACETS/VCF/00-common_all.vcf.gz cat ~/FACETS/VCF/00-common_all.vcf \
 | awk '$1 ~ /^#/ {print $0;next} {print $0 | "sort -k1,1 -k2,2n"}' > ~/FACETS/VCF/out_sorted.vcf
+
 #set working directory to users bamfile directory
 cd ~/alignment/bamfiles/filtered_bam/150bp
 
-for i in *.pileup; do
-head -n 1 $i && tail -n +2 $i | sort -t, -k1,1V -k2,2n > ${i%.pileup}.sorted.pileup
-done
-
-#start loop
+#start loop for snp-pileup
 for tumour in trimmed_*_tumour_sorted_filtered_nodup_RG.bam; do
 #save patient id in computer memory
 patient_id=${tumour#trimmed_}
@@ -31,7 +31,8 @@ done
 
 #go to pileup directory
 cd ~/FACETS
-#sort pileup file
+
+#sort pileup file (need to ensure FACETS run correctly)
 for i in *.pileup; do
 head -n 1 $i && tail -n +2 $i | sort -t, -k1,1V -k2,2n > ${i%.pileup}.sorted.pileup
 done
