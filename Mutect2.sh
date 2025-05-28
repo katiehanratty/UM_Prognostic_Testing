@@ -1,11 +1,16 @@
 #!/bin/sh
 
+#Running Mutect2 (Somaitc Variant Calling)
+
 #set working directory to users bamfile directory
-#ensure to rename files to the sample name used in the BAM reads
 cd ~/alignment/bamfiles/filtered_bam/150bp
+
+#make a new directory for your renamed BAM files (Mutect2 only works if files renamed to the sample name used in the BAM reads)
 mkdir -p ~/alignment/bamfiles/filtered_bam/150bp/mutect2
+
+#rename files using mv
 for i in *.bam; do
-mv i ~/alignment/bamfiles/filtered_bam/150bp/mutect2/${i%_sorted_filtered_nodup_RG.bam} 
+mv $i ~/alignment/bamfiles/filtered_bam/150bp/mutect2/${i%_sorted_filtered_nodup_RG.bam} 
 done
 
 #create directory for your mutect2 VCF files
