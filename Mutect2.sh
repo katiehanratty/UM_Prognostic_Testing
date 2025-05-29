@@ -9,8 +9,10 @@ cd ~/alignment/bamfiles/filtered_bam/150bp
 mkdir -p ~/alignment/bamfiles/filtered_bam/150bp/mutect2
 
 #rename files using mv
+cp *.bam mutect2
+cd mutect2 || exit 1
 for i in *.bam; do
-mv $i ~/alignment/bamfiles/filtered_bam/150bp/mutect2/${i%_sorted_filtered_nodup_RG.bam} 
+mv $i ${i%_sorted_filtered_nodup_RG.bam} 
 done
 
 #create directory for your mutect2 VCF files
@@ -50,3 +52,7 @@ normal="trimmed_${patient_id}_normal"
 	fi
 done
 
+cd ~/mutect2
+for i in *.vcf.gz; do
+gatk FilterMutectCalls -V $i -O ${i%.vcf.gz}.filtered.vcf.gz
+done
