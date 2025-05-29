@@ -6,15 +6,12 @@
 mkdir -p ~/CNVkit/bedfiles
 mkdir -p ~/CNVkit/150bp
 mkdir -p ~/CNVkit/151bp
-mkdir -p ~/alignment/bamfiles/filtered_bam/150bp/matched
-mkdir -p ~/alignment/bamfiles/filtered_bam/150bp/unmatched
+
 
 #same pathways into memory, edit as needed depending on users directory names
 REFERENCE=/mnt/data/GCB2025/katiehanratty/alignment/reference/hg38.fa
 BEDFILES=/mnt/data/GCB2025/katiehanratty/CNVkit/bedfiles
 BAMFILES=/mnt/data/GCB2025/katiehanratty/alignment/bamfiles/filtered_bam
-MATCHED=/mnt/data/GCB2025/katiehanratty/alignment/bamfiles/filtered_bam/150bp/matched
-UNMATCHED=/mnt/data/GCB2025/katiehanratty/alignment/bamfiles/filtered_bam/150bp/unmatched
 
 #manually download exome kit bedfile from company website to the bedfiles directory 
 #for my files, Agilent v6 Exon Capture kit was used. 
