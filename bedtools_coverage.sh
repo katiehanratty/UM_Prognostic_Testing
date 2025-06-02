@@ -8,14 +8,13 @@
 #make a directory for the target bedfile and bedtools coverage analysis files
 #edit as required
 mkdir -p ~/alignment/bedtools/bedfile
-BEDTOOLS=/mnt/data/GCB2025/katiehanratty/alignment/bedtools
 
-#move into directory with filtered bamfiles
-cd ~/alignment/bamfiles/filtered_bam || exit 1 #edit as required
+#save bedtools and bamfiles path in memory
+BEDTOOLS=/mnt/data/GCB2025/katiehanratty/alignment/bedtools
+BAMFILES=/mnt/data/GCB2025/katiehanratty/alignment/bamfiles/filtered_bam/150bp #edit as required
 
 #create loop for bedtools coverage
-
-for i in *.bam; do
+for i in ${BAMFILES}/*.bam; do
 bedtools coverage -hist -a $BEDTOOLS/bedfile/Exome-Agilent_V6.bed -b $i > $BEDTOOLS/${i%.bam}_depth.txt
 awk '$1=="all"{print $0}' $BEDTOOLS/${i%.bam}_depth.txt > $BEDTOOLS/${i%.bam}_depth_all.txt
 done
