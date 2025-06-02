@@ -4,7 +4,7 @@
 
 #set working directory to users VCF directory
 #change file locations as required
-cd ~/mutect2
+cd ~/mutect2 || exit 1
 
 #make a directory for VEP annotations of VCF file
 mkdir ~/mutect2/VEP
