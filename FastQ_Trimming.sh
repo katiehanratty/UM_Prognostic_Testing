@@ -1,14 +1,15 @@
 #!/bin/bash
+#IMPORTANT: ensure you ar ein the directory of the raw fastq files you want to trim
+#e.g. ~/fastq/raw_fastq
 
 #make a directory for the trimmed fastq
 mkdir -p ~/fastq/trimmed_fastq/FastQC/MultiQC
 mkdir -p ~/fastq/trimmed_fastq/logs
+
+#save path for fastq in memory
 TRIMMED=/mnt/data/GCB2025/katiehanratty/fastq/trimmed_fastq #edit parent directory as required
 
-#set working directory to users raw fastq directory
-cd ~/fastq/raw_fastq
-
-#run cutadapt 
+#####################RUNNING CUTADAPT#####################
 #change sequence (-a, -A) as needed (This is Illumina adapter) and other options as required
 for i in *_1.fastq.gz; do
 cutadapt -j=1 -a AGATCGGAAGAG -A AGATCGGAAGAG \
