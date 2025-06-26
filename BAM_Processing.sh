@@ -1,5 +1,7 @@
 #!/bin/sh
 
+#MAKE SURE YOU ARE IN THE DIRECTORY OF THE FASTQ FILES OF THE BAMFILES BEFORE RUNNING SCRIPT
+
 #save pathway with bamfiles in memory
 ALIGNED=~/alignment/bamfiles   #edit for directory name as needed
 
@@ -10,9 +12,6 @@ mkdir -p ~/alignment/bamfiles/filtered_bam
 mkdir -p ~/alignment/bamfiles/metrics
 
 #OBTAIN READ GROUP INFORMATION FROM FASTQ FILES
-
-#set working directory to directory with the fastq files
-cd ~/fastq/trimmed_fastq || exit 1 #stops script running if the cd doesn't run properly
 
 #start loop
 for fastqname in *R1.fastq.gz; do #edit for filenames as needed
