@@ -1,5 +1,7 @@
 #!/bin/sh
 
+#MAKE SURE YOU ARE IN THE DIRECTORY OF THE FASTQ FILES OYU WANT TO ALIGN BEFORE RUNNING SCRIPT
+
 #MAKE DIRECTORIES FOR ALIGNMENT, edit as required
 mkdir -p ~/alignment/bamfiles
 mkdir -p ~/alignment/samfiles
@@ -11,10 +13,6 @@ REFERENCE=/mnt/data/GCB2025/katiehanratty/alignment/reference
 #DOWNLOAD REFERENCE SEQUENCE OF CHOICE TO REFERENCE DIRECTORY USING WGET
 
 ##### ALIGN FASTQ TO REFERENCE #####
-
-#MOVE INTO DIRECTORY WITH FASTQ FILES
-#adjust depending on file location
-cd ~/fastq/trimmed_fastq || exit 1 #stops script running if the cd doesn't run properly
 
 #CREATE LOOP FOR BWA ALIGNMENT
 for i in *_R1.fastq.gz; do
