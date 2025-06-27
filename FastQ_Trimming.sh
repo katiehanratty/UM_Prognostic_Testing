@@ -1,5 +1,6 @@
 #!/bin/bash
-#IMPORTANT: ensure you ar ein the directory of the raw fastq files you want to trim
+
+#MAKE SURE YOU ARE IN THE DIRECTORY OF THE FASTQ FILES YOU WANT TO TRIM BEFORE RUNNING SCRIPT
 #e.g. ~/fastq/raw_fastq
 
 #make a directory for the trimmed fastq
