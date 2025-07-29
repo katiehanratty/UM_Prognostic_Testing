@@ -40,6 +40,6 @@ cnvkit.py segment $i --drop-low-coverage -o ${CNVKIT}/revised/${i%.cnr}.revised.
 #normalised sample for purity and infers integer copy numbers
 #if purity is known use that figure after --purity (e.g. --purity 0.3). 
 #Purity estimations can be made from FACETS analysis. If unknown, leave blank like below
-cnvkit.py call ${CNVKIT}/revised/${i%.cnr}.revised.cns -y -m clonal --purity -o ${CNVKIT}/revised/${i%.cnr}.revised.call.cns
+cnvkit.py call ${CNVKIT}/revised/${i%.cnr}.revised.cns -y -m clonal -o ${CNVKIT}/revised/${i%.cnr}.revised.call.cns
 cnvkit.py scatter $i -s ${CNVKIT}/revised/${i%.cnr}.revised.call.cns -o ${CNVKIT}/revised/${i%.cnr}.revised.call.scatter.png
 done
